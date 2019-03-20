@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  #通过选择器从kubernetes中过滤出它关心的被控制对象
+  selector:
+    matchLabels:
+      #带有标签app:nginx的pod
+      app: nginx
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.7.9
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - mountPath: "/usr/share/nginx/html"
+          name: nginx-vol
+      volumes:
+      - name: nginx-vol
+        #不显式声明宿主机目录的Volume，kubernetes在宿主机创建一个临时目录,pod被删了目录也没了，这个目录会被绑定挂载到容器声明的Volume目录上
+        # emptyDir: {}
+        #容器Volume挂载在宿主机的/var/data
+        hostPath:
+          path: /var/data
