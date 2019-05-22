@@ -1,0 +1,43 @@
+# Deployment
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: nginx
+spec:
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - image: nginx
+          name: nginx
+          ports:
+            - containerPort: 80
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-test-ingress
+spec:
+  selector:
+    app: nginx
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+---
+# ingress
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: name-ingress
+spec:
+  rules:
+    - host: nginx.testdomain.com
+      http:
+        paths:
+          - backend:
+              serviceName: nginx-test-ingress
+              servicePort: 80
