@@ -1,0 +1,47 @@
+# Pod
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: prometheus-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prometheus
+  template:
+    metadata:
+      labels:
+        app: prometheus
+    spec:
+      containers:
+        - name: prometheus 
+          image: prom/prometheus
+          ports:
+            - name: default
+              containerPort: 9090
+          volumeMounts:
+            - name: prometheus-conf
+              mountPath: /etc/prometheus
+      volumes:
+        - configMap:
+            name: prometheus-conf
+            items:
+              - key: prometheus-conf.yml
+                path: prometheus.yml
+              - key: minio_rules.yml
+                path: minio_rules.yml
+          name: prometheus-conf
+---
+
+#Service
+kind: Service
+apiVersion: v1
+metadata:
+  name: prometheus-service
+spec:
+  selector:
+    app: prometheus
+  type: NodePort
+  ports:
+    - port: 9090
+      targetPort: 9090

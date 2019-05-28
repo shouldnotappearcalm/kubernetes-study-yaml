@@ -1,0 +1,48 @@
+# my global config
+global:
+  scrape_interval:     15s # 抓取间隔 Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 15s # 规则评估间隔 Evaluate rules every 15 seconds. The default is every 1 minute.
+  # scrape_timeout is set to the global default (10s).
+
+# Alertmanager configuration 
+# 警告配置
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      # - alertmanager:9093
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'. 
+# 警告规则配置文件
+rule_files:
+  - 'minio_rules.yml'
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+# 抓取配置.
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  # 全局唯一
+  - job_name: 'minio'
+    # 覆盖全局的 scrape_interval
+    scrape_interval: 5s
+    metrics_path: /minio/prometheus/metrics
+    static_configs:
+    - targets: ['172.25.8.121:9000']
+
+  - job_name: 'prometheus'
+    static_configs:
+    - targets: ['127.0.0.1:9090']
+###以下内容为SpringBoot应用配置
+  #- job_name: 'springboot_prometheus'
+    # 覆盖全局的 scrape_interval
+  #  scrape_interval: 5s
+  #  metrics_path: '/actuator/prometheus'
+  #  static_configs:
+  #    - targets: ['192.168.238.1:8080']
+
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'.
+    
