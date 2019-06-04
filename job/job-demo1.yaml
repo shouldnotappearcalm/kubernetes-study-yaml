@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: pi
+spec:
+  #最大并行数
+  parallelism: 2
+  # 最小完成数
+  completions: 4
+  template:
+    spec:
+      containers:
+        - name: pi
+          image: resouer/ubuntu-bc
+          command: ["sh", "-c", "echo 'scale=5000; 4*a(1)' | bc -l "]
+      restartPolicy: Never
+  backoffLimit: 4
