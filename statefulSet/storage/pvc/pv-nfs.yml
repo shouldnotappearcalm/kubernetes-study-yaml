@@ -1,0 +1,14 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-volume
+spec:
+  capacity:
+    storage: 3Gi
+  accessModes: 
+    - ReadWriteOnce
+    - ReadOnlyMany
+    - ReadWriteMany
+  nfs:
+    path: /home/data
+    server: 192.168.50.234
