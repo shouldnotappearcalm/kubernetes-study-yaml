@@ -1,0 +1,95 @@
+#pv1
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: redis-pv1
+spec:
+  capacity:
+    storage: 200M
+  accessModes: 
+    - ReadWriteOnce
+    - ReadOnlyMany
+    - ReadWriteMany
+  nfs:
+    path: /home/data/redis/pv1
+    server: 192.168.50.234
+---
+#pv1
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: redis-pv2
+spec:
+  capacity:
+    storage: 200M
+  accessModes: 
+    - ReadWriteOnce
+    - ReadOnlyMany
+    - ReadWriteMany
+  nfs:
+    path: /home/data/redis/pv2
+    server: 192.168.50.234
+---
+#pv1
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: redis-pv3
+spec:
+  capacity:
+    storage: 200M
+  accessModes: 
+    - ReadWriteOnce
+    - ReadOnlyMany
+    - ReadWriteMany
+  nfs:
+    path: /home/data/redis/pv3
+    server: 192.168.50.234
+---
+#pv1
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: redis-pv4
+spec:
+  capacity:
+    storage: 200M
+  accessModes: 
+    - ReadWriteOnce
+    - ReadOnlyMany
+    - ReadWriteMany
+  nfs:
+    path: /home/data/redis/pv4
+    server: 192.168.50.234
+---
+#pv1
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: redis-pv5
+spec:
+  capacity:
+    storage: 200M
+  accessModes: 
+    - ReadWriteOnce
+    - ReadOnlyMany
+    - ReadWriteMany
+  nfs:
+    path: /home/data/redis/pv5
+    server: 192.168.50.234
+---
+#pv1
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: redis-pv6
+spec:
+  capacity:
+    storage: 200M
+  accessModes: 
+    - ReadWriteOnce
+    - ReadOnlyMany
+    - ReadWriteMany
+  nfs:
+    path: /home/data/redis/pv6
+    server: 192.168.50.234
