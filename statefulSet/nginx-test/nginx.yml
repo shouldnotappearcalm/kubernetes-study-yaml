@@ -1,0 +1,79 @@
+#pv1
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: nginx-test-pv
+spec:
+  capacity:
+    storage: 3Gi
+  accessModes: 
+    - ReadWriteOnce
+    - ReadOnlyMany
+    - ReadWriteMany
+  nfs:
+    path: /home/data/pv1
+    server: 192.168.50.234
+---
+#pv2
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: nginx-test-pv-2
+spec:
+  capacity:
+    storage: 2Gi
+  accessModes: 
+    - ReadWriteOnce
+    - ReadOnlyMany
+    - ReadWriteMany
+  nfs:
+    path: /home/data/pv2
+    server: 192.168.50.234
+---
+#service
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-svc-test
+spec:
+  selector:
+    app: nginx-sts
+  clusterIP: None
+  ports:
+  - port: 80
+    targetPort: 80
+---
+#StatefulSet
+kind: StatefulSet
+apiVersion: apps/v1
+metadata:
+  name: web-nginx
+spec:
+  selector:
+    matchLabels:
+      app: nginx-sts
+  serviceName: nginx-svc-test
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: nginx-sts
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: nginx-pvc-test
+              mountPath: /usr/share/nginx/html
+  volumeClaimTemplates:
+    - metadata:
+        name: nginx-pvc-test
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+    
